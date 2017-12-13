@@ -38,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     if (xc3sprog_path.isEmpty()){
         // Check if "xc3sprog" exist in the same folder with this application
-        xc3sprog_file.setFile("./xc3sprog");
+        xc3sprog_file.setFile("./xc3sprog_path");
     } else {
         xc3sprog_file.setFile(xc3sprog_path);
     }
@@ -129,7 +129,8 @@ void MainWindow::progStandardError()
 
 void MainWindow::on_toolBtnProg_clicked()
 {
-    QString xc3sprog_path = QFileDialog::getOpenFileName(this, tr("Select the xc3sprog file"),"./","xc3sprog (xc3sprog)");
+    //QString xc3sprog_path = QFileDialog::getOpenFileName(this, tr("Select the xc3sprog file"),"./","xc3sprog (xc3sprog)");
+    QString xc3sprog_path = QFileDialog::getOpenFileName(this, tr("Select the xc3sprog file"),"./",tr("exe Files (*.exe)"));
     ui->lineEdit_xc3sprog->setText(xc3sprog_path);
 
     QSettings settings("ScarabHardware", "miniSProg");
@@ -171,11 +172,6 @@ void MainWindow::on_pushButton_Program_clicked()
         arguments.append("-c");
         arguments.append("ftdi");
         arguments.append(ui->lineEdit_bitfile->text());
-
-        // Print the execute command and the parameters to the console before executing it, should help the user debug and find problems easily
-        ui->textEdit->setTextColor(Qt::green);
-        ui->textEdit->append("-------------------------\n\n# " + program + " -c ftdi \"" + ui->lineEdit_bitfile->text() + "\"\n");
-        setDefaultConsoleColor();
         proc->start(program, arguments);
     }
 }
@@ -185,9 +181,12 @@ void MainWindow::on_actionAbout_triggered()
     QString myTitle = "misiSProg";
     QString myBody = tr("<b>miniSProg by Scarab hardware</b><br><br>"
                         "A simple interface for 'xc3sprog' designed for<br>"
-                        "the FPGA board miniSpartan6+.<br><br>"
+                        "the FPGA board miniSpartan6+ and miniSpartan3+.<br><br>"
                         "Source code: <a href='https://github.com/fduraibi/miniSProg'>https://github.com/fduraibi/miniSProg</a><br>"
                         "Developed by: Fahad Alduraibi<br>"
-                        "v1.0");
+                        "v1.0<br><br>"
+                        "2017.12.13<br>"
+                        "Minor bug fixing + deployment to use in std Windows enviroment<br>"
+                        "Revision 1.1 by SDS<br>");
     QMessageBox::about(this, myTitle, myBody);
 }
